@@ -10,8 +10,9 @@
                     </div>
                     <div class="zxyy-item-buttom">
                         <div class="zxyy-item-buttom-img"></div>
-                        {{ item.ar[0].name }}{{ item.ar.length == '2' ? ` / ${item.ar[1].name}` : '' }}{{ item.al.name == '' ? ''
-                                : ` - ${item.al.name}`
+                        {{ item.ar[0].name }}{{ item.ar.length == '2' ? ` / ${item.ar[1].name}` : '' }}{{ item.al.name
+        == '' ? ''
+        : ` - ${item.al.name}`
                         }}
                     </div>
                 </div>
@@ -46,12 +47,20 @@ export default {
                 method: 'post',
                 url: `http://localhost:3000/song/url?id=${id}`,
             }).then((response) => {
-                let url = response.data.data[0].url
-                this.$router.push({
-                    path: '/bfym', name: 'Bfym', params: {
-                        url, item
-                    }
-                }, () => { })
+
+                axios({
+                    method: 'post',
+                    url: `http://localhost:3000/lyric?id=${id}`,
+                }).then((gcjg) => {
+                    let gc = gcjg.data.lrc.lyric
+
+                    let url = response.data.data[0].url
+                    this.$router.push({
+                        path: '/bfym', name: 'Bfym', params: {
+                            url, item, gc
+                        }
+                    }, () => { })
+                });
             });
         }
     },

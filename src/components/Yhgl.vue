@@ -89,18 +89,29 @@ export default {
                 });;
             });;
         },
-        tzyyjm(item){
+        tzyyjm(item) {
             axios({
                 method: 'post',
                 url: `http://localhost:3000/song/url?id=${item.id}`,
             }).then((response) => {
-                let url= response.data.data[0].url
-                this.$router.push({
-                    path: '/bfymb', name: 'Bfymb', params: {
-                        url, item
-                    }
-                }, () => { })
+                axios({
+                    method: 'post',
+                    url: `http://localhost:3000/lyric?id=${item.id}`,
+                }).then((gcjg) => {
+                    let gc = gcjg.data.lrc.lyric
+
+                    let url = response.data.data[0].url
+                    this.$router.push({
+                        path: '/bfymb', name: 'Bfymb', params: {
+                            url, item, gc
+                        }
+                    }, () => { })
+                });
+
+
+
             });;
+
         }
     },
     mounted() {
@@ -119,7 +130,7 @@ export default {
             this.yhglsj2 = response.data.result
         });;
 
-        
+
     }
 }
 </script>
@@ -181,6 +192,9 @@ export default {
     color: #888;
     display: flex;
     align-items: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .zxyy-item-buttom-img {
@@ -193,20 +207,21 @@ export default {
 }
 
 .item-text {
-    display: 8;
     display: flex;
-}
-
-.item-bf {
-    display: 1;
 }
 
 .item-l {
     color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .item-r {
     color: #888;
     margin-left: 4px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 </style>
