@@ -54,11 +54,14 @@ export default {
     },
     methods: {
         gdjm(item) {
+            localStorage.setItem('gdjmpicUrl',JSON.stringify(item))
+            
             axios({
                 method: 'post',
                 url: `http://localhost:3000/playlist/track/all?id=${item.id}&limit=10&offset=1`,
             }).then((response) => {
                 let { songs } = response.data
+                localStorage.setItem('songsaa',JSON.stringify(songs))
                 axios({
                     method: 'post',
                     url: `http://localhost:3000/playlist/detail?id=${item.id}`,
@@ -72,6 +75,8 @@ export default {
                     }).then((response) => {
                         let { comments } = response.data
                         let { hotComments } = response.data
+                        localStorage.setItem('hotComments',JSON.stringify(hotComments))
+                        localStorage.setItem('comments',JSON.stringify(comments))
                         let { total } = response.data
                         this.$router.push({
                             name: 'Gdjm',

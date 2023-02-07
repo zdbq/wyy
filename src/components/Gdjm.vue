@@ -139,16 +139,20 @@ export default {
     methods: {
         // 把评论时间的时间戳转换为年月日
         plsjhs() {
-            return this.comments.filter(element => {
-                let date = dayjs(element.time)
-                return element.time = `${date.$y}年${date.$M + 1}月${date.$D}日` || {}
-            });
+            setTimeout(() => {
+                return this.comments.filter(element => {
+                    let date = dayjs(element.time)
+                    return element.time = `${date.$y}年${date.$M + 1}月${date.$D}日` || {}
+                });
+            }, 1000);
         },
         plsjhs2() {
-            return this.hotComments.filter(element => {
-                let date = dayjs(element.time)
-                return element.time = `${date.$y}年${date.$M + 1}月${date.$D}日` || {}
-            });
+            setTimeout(() => {
+                return this.hotComments.filter(element => {
+                    let date = dayjs(element.time)
+                    return element.time = `${date.$y}年${date.$M + 1}月${date.$D}日` || {}
+                });
+            }, 1000);
         },
         djtzym(item) {
             axios({
@@ -164,7 +168,7 @@ export default {
                     let url = response.data.data[0].url
                     this.$router.push({
                         path: '/bfym', name: 'Bfym', params: {
-                            url, item,gc
+                            url, item, gc
                         }
                     }, () => { })
                 });
@@ -173,22 +177,28 @@ export default {
         }
     },
     activated() {
-        if (this.$route.params.item.picUrl) {
-            this.$nextTick(() => {
-                this.img.backgroundImage = `url(${this.$route.params.item.picUrl})`
-                this.fmdz = this.$route.params.item.picUrl
-                this.bt = this.$route.params.item.name
-                this.avatarUrl = this.$route.params.avatarUrl
-                this.nickname = this.$route.params.nickname
-                this.songs = this.$route.params.songs
-                // 专辑热门评论和最新评论
-                this.comments = this.$route.params.comments
-                this.hotComments = this.$route.params.hotComments
-                this.total = this.$route.params.total
-                this.plsjhs()
-                this.plsjhs2()
-            })
-        }
+
+        // this.fmdz = this.$route.params.item.picUrl
+        // console.log(this.fmdz);
+        // this.img.backgroundImage = `url(${this.$route.params.item.picUrl})`
+        // this.bt = this.$route.params.item.name
+        // this.avatarUrl = this.$route.params.avatarUrl
+        // this.nickname = this.$route.params.nickname
+        // this.songs = this.$route.params.songs
+
+        this.fmdz = JSON.parse(localStorage.getItem('gdjmpicUrl')).picUrl
+        console.log(this.fmdz);
+        this.img.backgroundImage = `url(${this.fmdz})`
+        this.bt = JSON.parse(localStorage.getItem('gdjmpicUrl')).name
+        this.avatarUrl = this.$route.params.avatarUrl
+        this.nickname = this.$route.params.nickname
+        this.songs = this.$route.params.songs
+        // 专辑热门评论和最新评论
+        this.hotComments = JSON.parse(localStorage.getItem('hotComments'))
+        this.comments = JSON.parse(localStorage.getItem('comments'))
+        this.total = this.$route.params.total
+        this.plsjhs()
+        this.plsjhs2()
     },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="ssjg.length > 0">
         <div class="item-box" v-for="(item, index) in ssjg" :key="index" @click="bfyy(item.id, item)">
             <div class="zxyy-item">
                 <div class="item-dleft">
@@ -10,9 +10,9 @@
                     </div>
                     <div class="zxyy-item-buttom">
                         <div class="zxyy-item-buttom-img"></div>
-                        {{ item.ar[0].name }}{{ item.ar.length == '2' ? ` / ${item.ar[1].name}` : '' }}{{ item.al.name
-        == '' ? ''
-        : ` - ${item.al.name}`
+                        {{ item.ar[0].name }}{{ item.ar.length == '2' ? ` / ${item.ar[1].name}` : '' }}{{
+    item.al.name ==
+        '' ? '' : ` - ${item.al.name}`
                         }}
                     </div>
                 </div>
@@ -65,11 +65,12 @@ export default {
         }
     },
     mounted() {
-        this.ssjg = this.$route.params.result.songs
+        this.ssjg = JSON.parse(localStorage.getItem('songsaa'))
         history.pushState(null, null, document.URL)
         window.addEventListener('popstate', () => {
             history.pushState(null, null, document.URL)
         })
+
     },
 }
 </script>
